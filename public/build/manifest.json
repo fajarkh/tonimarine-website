@@ -1,0 +1,72 @@
+{
+  "_.pnpm-CQPKmZuB.js": {
+    "file": "assets/vendor/.pnpm-CQPKmZuB.js",
+    "name": "vendor/.pnpm",
+    "imports": [
+      "_rolldown-runtime-hePW80VL.js"
+    ]
+  },
+  "_rolldown-runtime-hePW80VL.js": {
+    "file": "assets/rolldown-runtime-hePW80VL.js",
+    "name": "rolldown-runtime"
+  },
+  "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-Bs6tcqqs.woff2",
+    "src": "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-DRN8N0d1.woff2",
+    "src": "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-IAB4Droh.woff2",
+    "src": "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-CErXDOsT.woff2",
+    "src": "node_modules/.pnpm/@fortawesome+fontawesome-free@7.3.1/node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/css/app-frontend.css": {
+    "file": "assets/app-frontend-C5zQNzw0.css",
+    "name": "app-frontend",
+    "names": [
+      "app-frontend.css"
+    ],
+    "src": "resources/css/app-frontend.css",
+    "isEntry": true
+  },
+  "resources/js/app-backend.js": {
+    "file": "assets/app-backend-Da6XG04R.js",
+    "name": "app-backend",
+    "src": "resources/js/app-backend.js",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-hePW80VL.js",
+      "_.pnpm-CQPKmZuB.js"
+    ]
+  },
+  "resources/js/app-frontend.js": {
+    "file": "assets/app-frontend-BIJoP1iT.js",
+    "name": "app-frontend",
+    "src": "resources/js/app-frontend.js",
+    "isEntry": true,
+    "imports": [
+      "_.pnpm-CQPKmZuB.js"
+    ]
+  },
+  "resources/sass/app-backend.scss": {
+    "file": "assets/app-backend-GwNIKDYJ.css",
+    "name": "app-backend",
+    "names": [
+      "app-backend.css"
+    ],
+    "src": "resources/sass/app-backend.scss",
+    "isEntry": true,
+    "assets": [
+      "assets/fa-brands-400-Bs6tcqqs.woff2",
+      "assets/fa-regular-400-DRN8N0d1.woff2",
+      "assets/fa-solid-900-IAB4Droh.woff2",
+      "assets/fa-v4compatibility-CErXDOsT.woff2"
+    ]
+  }
+}
