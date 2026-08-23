@@ -607,7 +607,7 @@
 
                                     <div>
                                         <p class="text-sm font-semibold">
-                                            +62 811-1234-5678
+                                            +62 821-4151-1101
                                         </p>
 
                                         <p class="text-xs text-blue-200">
@@ -624,7 +624,7 @@
                                     </i>
 
                                     <p class="text-sm text-blue-100">
-                                        operations@oceansupply.co.id
+                                        ajfmarketing@aztonjayaforever.com
                                     </p>
 
                                 </div>
