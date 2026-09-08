@@ -12,6 +12,11 @@
                     $detailsUrl = route("frontend.posts.show", [encode_id($row->id), $row->slug]);
                     $rowName = data_get($row, "name", data_get($row, "slug", "Post"));
                     $author = $row->created_by_alias ?: $row->created_by_name ?: "-";
+                    $imageUrl = $row->image;
+
+                    if ($imageUrl && ! \Illuminate\Support\Str::startsWith($imageUrl, ["http://", "https://", "/"])) {
+                        $imageUrl = \Illuminate\Support\Facades\Storage::disk("public")->url($imageUrl);
+                    }
                 @endphp
 
                 <li class="mb-2 flex flex-row border-gray-400">
@@ -19,7 +24,7 @@
                         <div class="flex">
                             <div class="mr-4 flex h-10 flex-col items-center justify-center">
                                 <a class="relative block" href="{{ $detailsUrl }}">
-                                    <img class="mx-auto h-10 rounded-sm object-cover" src="{{ $row->image }}" alt="{{ $rowName }}" />
+                                    <img class="mx-auto h-10 rounded-sm object-cover" src="{{ $imageUrl }}" alt="{{ $rowName }}" />
                                 </a>
                             </div>
                             <div class="pl-1">
