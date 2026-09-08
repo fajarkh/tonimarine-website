@@ -12,7 +12,7 @@ class PostsController extends VendorPostsController
     {
         $post = Post::query()
             ->with('category', 'tags')
-            ->findOrFail(decode_id($id));
+            ->findOrFail($id);
 
         return view('post::frontend.posts.show', [
             'module_title' => 'Posts',
