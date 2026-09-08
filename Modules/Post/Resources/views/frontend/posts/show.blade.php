@@ -1,12 +1,13 @@
 @extends("frontend.layouts.app")
 
 @section("title")
-    {{ $$module_name_singular->name ?? "Post" }}
+    {{ data_get($$module_name_singular ?? null, "name", "Post") }}
 @endsection
 
 @section("content")
     @php
-        $post = $$module_name_singular;
+        $post = $$module_name_singular ?? null;
+        abort_unless($post, 404);
         $shareUrl = route("frontend.posts.show", [encode_id($post->id), $post->slug]);
         $shareDescription = $post->meta_description ?: $post->intro;
         $shareImage = $post->meta_og_image ?: $post->image;
@@ -22,14 +23,14 @@
                 <h1 class="mb-4 text-3xl font-medium text-gray-800 sm:text-4xl dark:text-gray-200">
                     {{ $post->name ?? "Post" }}
                 </h1>
-                @if ($post->intro)
-                    <p class="mb-8 leading-relaxed">{{ $post->intro ?? "" }}</p>
+                @if ($post?->intro)
+                    <p class="mb-8 leading-relaxed">{{ $post->intro }}</p>
                 @endif
 
                 @include("frontend.includes.messages")
             </div>
             <div class="mb-4 w-full sm:mb-0 sm:w-8/12">
-                <img class="rounded object-cover object-center shadow-md" src="{{ $post->image }}" alt="{{ $post->name }}" />
+                <img class="rounded object-cover object-center shadow-md" src="{{ $post?->image }}" alt="{{ $post?->name ?? "Post" }}" />
             </div>
         </div>
     </section>
@@ -45,7 +46,7 @@
                     <div class="flex flex-col justify-between sm:flex-row">
                         <div class="pb-2">
                             {{ __("Written by") }}:
-                            {{ $post->created_by_alias ?: $post->created_by_name }}
+                            {{ $post?->created_by_alias ?: $post?->created_by_name ?: "-" }}
                         </div>
                         <div class="pb-2">
                             {{ __("Published at") }}:
@@ -60,7 +61,7 @@
                             <span class="font-weight-bold">@lang("Category"):</span>
                             <x-cube::badge
                                 :url="route('frontend.categories.show', [encode_id($post->category_id), $post->category->slug])"
-                                :text="$post->category->name ?? '-"
+                                :text="data_get($post->category, 'name', '-')"
                             />
                         </div>
                     </div>

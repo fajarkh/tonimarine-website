@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => '\\Nasirkhan\\ModuleManager\\Modules\\Post\\Http\\Controllers\\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
+Route::group(['namespace' => '\\Modules\\Post\\Http\\Controllers\\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
     $module_name = 'posts';
     $controller_name = 'PostsController';
 
