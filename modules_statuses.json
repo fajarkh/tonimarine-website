@@ -8,5 +8,6 @@
     "Post": true,
     "Settings": true,
     "Tag": true,
-    "Gallery": true
+    "Gallery": true,
+    "Rfq": true
 }

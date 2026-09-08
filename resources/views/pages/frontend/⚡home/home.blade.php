@@ -873,9 +873,26 @@
                         {{-- Form --}}
                         <div class="bg-white p-6 lg:col-span-3 lg:p-8">
 
-                            <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5">
+                            <form action="{{ route('frontend.rfqs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
 
                                 @csrf
+
+                                @if (session('success'))
+                                    <div class="rounded-lg bg-green-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                @if ($errors->any())
+                                    <div class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+                                        <p class="font-semibold">{{ __('rfq::text.validation_failed') }}</p>
+                                        <ul class="mt-1 list-disc pl-5">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
                                 <div class="grid gap-5 sm:grid-cols-2">
 
@@ -887,7 +904,7 @@
                                             Vessel Name *
                                         </label>
 
-                                        <input type="text" name="vessel_name" placeholder="e.g. MV Ocean Star"
+                                        <input type="text" name="vessel_name" value="{{ old('vessel_name') }}" placeholder="e.g. MV Ocean Star"
                                             required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
@@ -904,7 +921,7 @@
                                             IMO Number
                                         </label>
 
-                                        <input type="text" name="imo_number" placeholder="e.g. 9876543"
+                                        <input type="text" name="imo_number" value="{{ old('imo_number') }}" placeholder="e.g. 9876543"
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                transition focus:border-blue-600
@@ -930,15 +947,15 @@
                                                 Select Port
                                             </option>
 
-                                            <option value="muara_badak">
+                                            <option value="muara_badak" @selected(old('port') === 'muara_badak')>
                                                 Muara Badak, East Kalimantan
                                             </option>
 
-                                            <option value="muara_jawa">
+                                            <option value="muara_jawa" @selected(old('port') === 'muara_jawa')>
                                                 Muara Jawa
                                             </option>
 
-                                            <option value="samboja">
+                                            <option value="samboja" @selected(old('port') === 'samboja')>
                                                 Samboja
                                             </option>
 
@@ -954,7 +971,7 @@
                                             ETA (Estimated Time of Arrival) *
                                         </label>
 
-                                        <input type="datetime-local" name="eta" required
+                                        <input type="datetime-local" name="eta" value="{{ old('eta') }}" required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                focus:border-blue-600
@@ -970,7 +987,7 @@
                                             Contact Email / Phone *
                                         </label>
 
-                                        <input type="text" name="contact" placeholder="e.g. name@company.com"
+                                        <input type="text" name="contact" value="{{ old('contact') }}" placeholder="e.g. name@company.com"
                                             required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
@@ -987,7 +1004,7 @@
                                             Company
                                         </label>
 
-                                        <input type="text" name="company" placeholder="e.g. Ocean Shipping Ltd."
+                                        <input type="text" name="company" value="{{ old('company') }}" placeholder="e.g. Ocean Shipping Ltd."
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                focus:border-blue-600
@@ -1010,7 +1027,7 @@
                                            border-slate-200 px-4 py-3 text-sm
                                            outline-none transition
                                            focus:border-blue-600
-                                           focus:ring-2 focus:ring-blue-100"></textarea>
+                                           focus:ring-2 focus:ring-blue-100">{{ old('requirement') }}</textarea>
                                 </div>
 
 

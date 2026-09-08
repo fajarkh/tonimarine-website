@@ -1,0 +1,13 @@
+{
+    "name": "Rfq",
+    "alias": "rfq",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Rfq\\Providers\\RfqServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
