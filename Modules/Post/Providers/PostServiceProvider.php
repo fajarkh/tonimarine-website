@@ -17,4 +17,11 @@ class PostServiceProvider extends VendorPostServiceProvider
         $this->registerSeeders();
         $this->registerLivewireComponents();
     }
+
+    public function registerViews(): void
+    {
+        parent::registerViews();
+
+        $this->loadViewsFrom(base_path('Modules/Post/Resources/views'), 'post');
+    }
 }
