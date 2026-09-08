@@ -686,37 +686,15 @@
 
                 <div class="mt-10 grid gap-6 md:grid-cols-3">
 
-                    @foreach ([
-        [
-            'category' => 'DECK & ENGINE SUPPLY',
-            'date' => '20 May 2026',
-            'title' => 'Delivery Order Deck & Engine Store for MV Arfianie Ayu',
-            'description' => 'Successfully delivered essential deck and engine stores for MV Arfianie Ayu (PT. Gurita Lintas Samudera) at Muara Jawa Anchorage, Indonesia.',
-            'image' => 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80',
-        ],
-        [
-            'category' => 'PROVISION SUPPLY',
-            'date' => '15 May 2026',
-            'title' => 'Provision Supply Operations for MV Golden Hope & MV CH Bella',
-            'description' => 'Provided fresh provisions and vessel supplies for MV Golden Hope and MV CH Bella at Muara Berau Anchorage, Indonesia.',
-            'image' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
-        ],
-        [
-            'category' => 'TECHNICAL SERVICES',
-            'date' => '08 May 2026',
-            'title' => 'Motor Repair & Provisions Supply at Port of Tanjung Bara & Muara Berau',
-            'description' => 'Executed motor repair services for MV Calypso Island at Muara Berau and fulfilled provisions supply services at Port of Tanjung Bara.',
-            'image' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
-        ],
-    ] as $news)
+                    @foreach ($posts as $post)
                         <article
                             class="overflow-hidden rounded-xl border
                                    border-slate-200 bg-white shadow-sm
                                    transition hover:-translate-y-1
                                    hover:shadow-lg">
 
-                            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}"
-                                class="h-52 w-full object-cover">
+                            <img src="{{ $post->image ?: asset('img/landing/hero/hero-vessel-supply.jpeg') }}"
+                                alt="{{ $post->name }}" class="h-52 w-full object-cover">
 
                             <div class="p-6">
 
@@ -724,24 +702,24 @@
                                     class="inline-flex rounded bg-blue-50
                                          px-2.5 py-1 text-[10px] font-bold
                                          text-blue-700">
-                                    {{ $news['category'] }}
+                                    {{ strtoupper($post->category?->name ?? 'MARITIME INSIGHTS') }}
                                 </span>
 
                                 <p class="mt-4 text-xs text-slate-400">
-                                    {{ $news['date'] }}
+                                    {{ $post->published_at?->format('d M Y') }}
                                 </p>
 
                                 <h3
                                     class="mt-2 text-lg font-bold leading-6
                                        text-slate-900">
-                                    {{ $news['title'] }}
+                                    {{ $post->name }}
                                 </h3>
 
                                 <p class="mt-3 text-sm leading-6 text-slate-500">
-                                    {{ $news['description'] }}
+                                    {{ $post->intro ?: str(strip_tags($post->content))->limit(140) }}
                                 </p>
 
-                                <a href="#"
+                                <a href="{{ route('frontend.posts.show', ['id' => $post->id, 'slug' => $post->slug]) }}"
                                     class="mt-5 inline-flex items-center gap-2
                                       text-xs font-bold text-blue-700">
 
@@ -802,7 +780,8 @@
                                     </i>
 
                                     <div>
-                                        <a href="tel:+6281250977777" class="text-sm font-semibold transition hover:text-yellow-300">
+                                        <a href="tel:+6281250977777"
+                                            class="text-sm font-semibold transition hover:text-yellow-300">
                                             +62 812 5097 7777
                                         </a>
 
@@ -839,12 +818,12 @@
                                     </i>
 
                                     <div class="flex flex-col gap-1 text-sm text-blue-100">
-                                        <a href="https://wa.me/6281250977777" target="_blank" rel="noopener noreferrer"
-                                            class="transition hover:text-white">
+                                        <a href="https://wa.me/6281250977777" target="_blank"
+                                            rel="noopener noreferrer" class="transition hover:text-white">
                                             +62 812 5097 7777
                                         </a>
-                                        <a href="https://wa.me/6282141511101" target="_blank" rel="noopener noreferrer"
-                                            class="transition hover:text-white">
+                                        <a href="https://wa.me/6282141511101" target="_blank"
+                                            rel="noopener noreferrer" class="transition hover:text-white">
                                             +62 821 4151 1101
                                         </a>
                                     </div>
@@ -873,12 +852,14 @@
                         {{-- Form --}}
                         <div class="bg-white p-6 lg:col-span-3 lg:p-8">
 
-                            <form action="{{ route('frontend.rfqs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+                            <form action="{{ route('frontend.rfqs.store') }}" method="POST"
+                                enctype="multipart/form-data" class="space-y-5">
 
                                 @csrf
 
                                 @if (session('success'))
-                                    <div class="rounded-lg bg-green-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+                                    <div
+                                        class="rounded-lg bg-green-50 px-4 py-3 text-sm font-semibold text-emerald-700">
                                         {{ session('success') }}
                                     </div>
                                 @endif
@@ -904,8 +885,8 @@
                                             Vessel Name *
                                         </label>
 
-                                        <input type="text" name="vessel_name" value="{{ old('vessel_name') }}" placeholder="e.g. MV Ocean Star"
-                                            required
+                                        <input type="text" name="vessel_name" value="{{ old('vessel_name') }}"
+                                            placeholder="e.g. MV Ocean Star" required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                transition focus:border-blue-600
@@ -921,7 +902,8 @@
                                             IMO Number
                                         </label>
 
-                                        <input type="text" name="imo_number" value="{{ old('imo_number') }}" placeholder="e.g. 9876543"
+                                        <input type="text" name="imo_number" value="{{ old('imo_number') }}"
+                                            placeholder="e.g. 9876543"
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                transition focus:border-blue-600
@@ -971,7 +953,8 @@
                                             ETA (Estimated Time of Arrival) *
                                         </label>
 
-                                        <input type="datetime-local" name="eta" value="{{ old('eta') }}" required
+                                        <input type="datetime-local" name="eta" value="{{ old('eta') }}"
+                                            required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                focus:border-blue-600
@@ -987,8 +970,8 @@
                                             Contact Email / Phone *
                                         </label>
 
-                                        <input type="text" name="contact" value="{{ old('contact') }}" placeholder="e.g. name@company.com"
-                                            required
+                                        <input type="text" name="contact" value="{{ old('contact') }}"
+                                            placeholder="e.g. name@company.com" required
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                focus:border-blue-600
@@ -1004,7 +987,8 @@
                                             Company
                                         </label>
 
-                                        <input type="text" name="company" value="{{ old('company') }}" placeholder="e.g. Ocean Shipping Ltd."
+                                        <input type="text" name="company" value="{{ old('company') }}"
+                                            placeholder="e.g. Ocean Shipping Ltd."
                                             class="w-full rounded-lg border border-slate-200
                                                px-4 py-3 text-sm outline-none
                                                focus:border-blue-600
