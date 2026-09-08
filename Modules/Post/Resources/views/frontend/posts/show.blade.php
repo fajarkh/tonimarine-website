@@ -60,7 +60,7 @@
                             <span class="font-weight-bold">@lang("Category"):</span>
                             <x-cube::badge
                                 :url="route('frontend.categories.show', [encode_id($post->category_id), $post->category->slug])"
-                                :text="$post->category->name"
+                                :text="$post->category->name ?? '-"
                             />
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         @foreach ($post->tags as $tag)
                             <x-cube::badge
                                 :url="route('frontend.tags.show', [encode_id($tag->id), $tag->slug])"
-                                :text="$tag->name"
+                                :text="$tag->name ?? $tag->slug ?? '-'"
                             />
                         @endforeach
                     </div>
