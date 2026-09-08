@@ -1,7 +1,7 @@
 @extends("frontend.layouts.app")
 
 @section("title")
-    {{ $$module_name_singular->name }}
+    {{ $$module_name_singular->name ?? "Post" }}
 @endsection
 
 @section("content")
@@ -20,10 +20,10 @@
         <div class="container mx-auto flex flex-col items-center py-8 sm:py-16 md:flex-row">
             <div class="flex flex-col items-center text-center sm:w-4/12 md:items-start md:pr-16 md:text-left lg:flex-grow lg:pr-24">
                 <h1 class="mb-4 text-3xl font-medium text-gray-800 sm:text-4xl dark:text-gray-200">
-                    {{ $post->name }}
+                    {{ $post->name ?? "Post" }}
                 </h1>
                 @if ($post->intro)
-                    <p class="mb-8 leading-relaxed">{{ $post->intro }}</p>
+                    <p class="mb-8 leading-relaxed">{{ $post->intro ?? "" }}</p>
                 @endif
 
                 @include("frontend.includes.messages")
@@ -83,7 +83,7 @@
                         theme="tailwind"
                         label="{{ __('Share with others') }}"
                         :url="$shareUrl"
-                        :title="$post->name"
+                        :title="$post->name ?? '-'"
                         :description="$shareDescription"
                         :image="$shareImage"
                         :networks="['x', 'facebook', 'linkedin', 'whatsapp', 'telegram', 'email', 'copy', 'native']"
