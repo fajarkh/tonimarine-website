@@ -2,106 +2,147 @@
     <div class="min-h-screen bg-white text-slate-900">
 
         {{-- =========================================================
-        HERO SECTION
+        HERO SECTION SLIDER (Alpine.js)
     ========================================================== --}}
-        <section class="relative overflow-hidden bg-[#06284b]">
-            {{-- Background --}}
-            <div class="absolute inset-0">
-                <img src="{{ asset('images/landing/hero-marine.jpg') }}" alt="Marine supply vessel"
-                    class="h-full w-full object-cover">
+        <section x-data="{
+            activeSlide: 0,
+            slides: [{
+                    title: 'General Marine Supplier & Service',
+                    highlight: 'For Your Vessel\'s Operational Needs.',
+                    desc: 'Provision, bonded store, engine & deck store, fresh water, OXY & ACE refill, and motor repair services based in Muara Badak.',
+                    image: '{{ asset('img/landing/hero/hero-vessel-supply.jpeg') }}',
+                    badge: 'PT. AZTON JAYA FOREVER'
+                },
+                {
+                    title: 'Fresh Provision & Bonded Store Supply',
+                    highlight: 'High Quality Food & Provisions On Time.',
+                    desc: 'Direct delivery of fresh produce, meat, dry goods, and crew provisions straight to anchorage areas.',
+                    image: '{{ asset('img/landing/hero/hero-provision-delivery.jpeg') }}',
+                    badge: 'PROVISION STORE'
+                },
+                {
+                    title: 'Deck, Engine Stores & Technical Support',
+                    highlight: 'Complete Technical Equipment & Refills.',
+                    desc: 'Supplying certified safety gear, deck tools, engine spares, OXY & ACE refill, and eco-friendly garbage disposal.',
+                    image: '{{ asset('img/landing/hero/hero-technical-store.jpeg') }}',
+                    badge: 'ENGINE & DECK STORE'
+                }
+            ],
+            timer: null,
+            init() {
+                this.startAutoplay();
+            },
+            startAutoplay() {
+                this.timer = setInterval(() => {
+                    this.next();
+                }, 3000);
+            },
+            stopAutoplay() {
+                clearInterval(this.timer);
+            },
+            next() {
+                this.activeSlide = (this.activeSlide + 1) % this.slides.length;
+            },
+            prev() {
+                this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length;
+            }
+        }" @mouseenter="stopAutoplay()" @mouseleave="startAutoplay()"
+            class="relative overflow-hidden bg-[#06284b]">
 
-                <div
-                    class="absolute inset-0 bg-gradient-to-r
-                        from-[#03254a]/95 via-[#07345d]/80 to-[#07345d]/20">
+            {{-- Slider Background Images with Transitions --}}
+            <template x-for="(slide, index) in slides" :key="index">
+                <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-1000 transform"
+                    x-transition:enter-start="opacity-0 scale-105" x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-700 transform"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                    class="absolute inset-0">
+
+                    <img :src="slide.image" :alt="slide.title" class="h-full w-full object-cover">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#03254a]/95 via-[#07345d]/85 to-[#07345d]/30">
+                    </div>
                 </div>
-            </div>
+            </template>
 
+            {{-- Content Section --}}
             <div class="relative mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">
-                <div class="max-w-3xl">
+                <div class="max-w-3xl min-h-[320px] flex flex-col justify-center">
 
-                    <span
-                        class="mb-5 inline-flex items-center rounded-full
-                             border border-white/20 bg-white/10 px-4 py-2
-                             text-sm font-semibold text-white backdrop-blur">
-                        <span class="mr-2 h-2 w-2 rounded-full bg-red-500"></span>
-                        MARINE SUPPLY SERVICES
-                    </span>
+                    <template x-for="(slide, index) in slides" :key="index">
+                        <div x-show="activeSlide === index"
+                            x-transition:enter="transition ease-out duration-700 delay-200"
+                            x-transition:enter-start="opacity-0 translate-y-4"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-300"
+                            x-transition:leave-start="opacity-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 -translate-y-4">
 
-                    <h1
-                        class="text-4xl font-extrabold leading-tight tracking-tight
-                           text-white sm:text-5xl lg:text-6xl">
-                        Reliable Marine Provisions & Technical Stores
-                        <span class="text-red-500">
-                            Supplied Directly to Your Vessel, 24/7.
-                        </span>
-                    </h1>
+                            <span
+                                class="mb-5 inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+                                <span class="mr-2 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                                <span x-text="slide.badge"></span>
+                            </span>
 
-                    <p class="mt-6 max-w-2xl text-lg leading-8 text-blue-50">
-                        Fast response, reliable supply and professional marine
-                        services for vessels operating around Muara Badak,
-                        East Kalimantan.
-                    </p>
+                            <h1
+                                class="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+                                <span x-text="slide.title"></span>
+                                <span class="block text-red-500 mt-1" x-text="slide.highlight"></span>
+                            </h1>
 
-                    <div class="mt-8 flex flex-wrap gap-4">
+                            <p class="mt-6 max-w-2xl text-lg leading-8 text-blue-50" x-text="slide.desc"></p>
+                        </div>
+                    </template>
 
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
                         <a href="#rfq"
-                            class="inline-flex items-center gap-2 rounded-lg
-                              bg-red-600 px-6 py-3.5 text-sm font-bold
-                              text-white shadow-lg shadow-red-900/20
-                              transition hover:bg-red-700">
-
+                            class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-red-900/20 transition hover:bg-red-700">
                             <i data-lucide="message-circle" class="h-5 w-5"></i>
-
-                            Request Immediate Quote
+                            Request a Quote
                         </a>
 
                         <a href="#services"
-                            class="inline-flex items-center gap-2 rounded-lg
-                              border border-white/40 bg-white/10 px-6 py-3.5
-                              text-sm font-bold text-white backdrop-blur
-                              transition hover:bg-white/20">
-
+                            class="inline-flex items-center gap-2 rounded-lg border border-white/40 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20">
                             <i data-lucide="book-open" class="h-5 w-5"></i>
-
-                            View Supply Catalog
+                            View Our Services
                         </a>
-
                     </div>
+
+                </div>
+
+                {{-- Slider Controls --}}
+                <div
+                    class="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/20 bg-slate-950/25 px-3 py-2 backdrop-blur-sm hidden">
+                    <button @click="prev()"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:bg-white/25"
+                        aria-label="Previous slide">
+                        <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                    </button>
+
+                    <button @click="next()"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:bg-white/25"
+                        aria-label="Next slide">
+                        <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                    </button>
                 </div>
             </div>
 
-            {{-- Hero stats --}}
+            {{-- Hero Stats Footer --}}
             <div class="relative border-t border-white/10 bg-[#032b52]/90">
-                <div
-                    class="mx-auto grid max-w-7xl grid-cols-2
-                        divide-x divide-white/10 md:grid-cols-4">
-
-                    @foreach ([['icon' => 'clock-3', 'value' => '24/7', 'label' => 'Service & Support'], ['icon' => 'ship', 'value' => 'Muara Badak', 'label' => 'Port Coverage'], ['icon' => 'zap', 'value' => 'Fast Response', 'label' => 'On-Time Delivery'], ['icon' => 'shield-check', 'value' => 'Trusted Quality', 'label' => 'Safety & Compliance']] as $stat)
+                <div class="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
+                    @foreach ([['icon' => 'clock-3', 'value' => '24/7', 'label' => 'Service & Support'], ['icon' => 'ship', 'value' => 'Muara Badak', 'label' => 'Port Coverage'], ['icon' => 'zap', 'value' => 'Fast Response', 'label' => 'On-Time Delivery'], ['icon' => 'shield-check', 'value' => 'NIB Registered', 'label' => '1007260025108']] as $stat)
                         <div class="flex items-center gap-3 px-5 py-5 lg:px-8">
-
-                            <div
-                                class="flex h-11 w-11 shrink-0 items-center
-                                    justify-center rounded-full bg-white/10">
-
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10">
                                 <i data-lucide="{{ $stat['icon'] }}" class="h-5 w-5 text-white"></i>
-
                             </div>
-
                             <div>
-                                <p class="text-sm font-bold text-white">
-                                    {{ $stat['value'] }}
-                                </p>
-
-                                <p class="text-xs text-blue-200">
-                                    {{ $stat['label'] }}
-                                </p>
+                                <p class="text-sm font-bold text-white">{{ $stat['value'] }}</p>
+                                <p class="text-xs text-blue-200">{{ $stat['label'] }}</p>
                             </div>
-
                         </div>
                     @endforeach
-
                 </div>
             </div>
+
         </section>
 
 
@@ -121,43 +162,49 @@
                     <h2
                         class="mt-3 text-3xl font-extrabold tracking-tight
                            text-slate-900 sm:text-4xl">
-                        Complete Marine Supply Solutions
+                        Complete Marine Supply & Services
                     </h2>
 
                     <p class="mt-4 text-slate-500">
-                        Reliable supplies and support for vessels, crews and
-                        marine operations.
+                        Reliable supplies and services for vessels, crews, and marine operations.
                     </p>
 
                 </div>
 
 
-                <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
 
                     @php
                         $services = [
                             [
                                 'icon' => 'shopping-cart',
-                                'title' => 'Provisions & Bonded Stores',
+                                'title' => 'Provision & Bonded Store',
                                 'description' =>
-                                    'Fresh, frozen and dry provisions, halal and non-halal food, beverages, tobacco and crew essentials.',
+                                    'Fresh food, provisions, and official bonded store supplies for vessel crew needs.',
                             ],
                             [
-                                'icon' => 'settings-2',
-                                'title' => 'Deck, Engine, & Cabin Stores',
-                                'description' => 'Wide range of technical stores compliant with IMPA and ISSA codes.',
+                                'icon' => 'store',
+                                'title' => 'Gallery & Engine Store',
+                                'description' =>
+                                    'Complete gallery essentials and comprehensive engine technical stores.',
                             ],
                             [
-                                'icon' => 'life-buoy',
-                                'title' => 'Safety & Life-Saving Appliances',
+                                'icon' => 'anchor',
+                                'title' => 'Deck Store & Fresh Water',
                                 'description' =>
-                                    'Complete safety equipment, life-saving appliances and certified marine safety supplies.',
+                                    'Full range of deck equipment, maintenance stores, and fresh water supply.',
                             ],
                             [
-                                'icon' => 'truck',
-                                'title' => 'Logistics, Customs Clearance & Spare Parts',
+                                'icon' => 'flame',
+                                'title' => 'Oxy & Ace Refill & Garbage',
                                 'description' =>
-                                    'End-to-end logistics, customs clearance and urgent spare parts delivery.',
+                                    'Oxygen & Acetylene cylinder refill services and eco-friendly garbage disposal.',
+                            ],
+                            [
+                                'icon' => 'wrench',
+                                'title' => 'BA Chart & Motor Repair',
+                                'description' =>
+                                    'British Admiralty (BA) nautical charts and professional motor repair services.',
                             ],
                         ];
                     @endphp
@@ -215,7 +262,7 @@
                     <div class="lg:col-span-4">
 
                         <p class="text-sm font-bold uppercase tracking-widest text-blue-700">
-                            Port Coverage
+                            Port Coverage & Location
                         </p>
 
                         <h2
@@ -229,16 +276,14 @@
                         </h2>
 
                         <p class="mt-5 leading-7 text-slate-600">
-                            We specialize in supplying vessels at Muara Badak
-                            Port and surrounding anchorage areas with fast,
-                            reliable service and complete marine provisions
-                            and technical stores.
+                            Located at Dermaga Baru Toko Lima RT. 14, Muara Badak Ilir, Kutai Kartanegara, we specialize
+                            in supplying vessels at Muara Badak Port and surrounding anchorage areas.
                         </p>
 
 
                         <ul class="mt-6 space-y-3">
 
-                            @foreach (['Anchorage Supply', 'Jetty & Berthing Supply', 'Crew Change Support', 'Spare Parts Delivery', 'Bunkering Coordination'] as $item)
+                            @foreach (['Provision & Bonded Supply', 'Fresh Water Delivery', 'OXY & ACE Cylinder Refill', 'Garbage Disposal Service', 'Motor Repair & Technical Stores'] as $item)
                                 <li
                                     class="flex items-center gap-3 text-sm font-medium
                                        text-slate-700">
@@ -294,7 +339,7 @@
 
                                 <div class="flex items-center gap-2">
                                     <span class="h-2.5 w-2.5 rounded-full bg-red-600"></span>
-                                    Muara Badak Port / Jetty
+                                    Muara Berau Port
                                 </div>
 
                                 <div class="mt-2 flex items-center gap-2">
@@ -319,7 +364,7 @@
                             <p
                                 class="text-xs font-bold uppercase tracking-widest
                                   text-blue-700">
-                                Why Muara Badak?
+                                Company Legality & Contact
                             </p>
 
 
@@ -328,24 +373,25 @@
                                 @php
                                     $reasons = [
                                         [
-                                            'icon' => 'compass',
-                                            'title' => 'Strategic Location',
-                                            'text' => 'Gateway to East Kalimantan energy and industrial hub.',
+                                            'icon' => 'file-text',
+                                            'title' => 'Legal Identity',
+                                            'text' => 'NPWP: 1000000009900911<br>NIB: 1007260025108',
                                         ],
                                         [
-                                            'icon' => 'ship',
-                                            'title' => 'Fast & Reliable Supply',
-                                            'text' => 'Quick response for anchorage or alongside vessels.',
+                                            'icon' => 'mail',
+                                            'title' => 'Email Support',
+                                            'text' =>
+                                                'ajfadmin@aztonjayaforever.com<br>ajfmarketing@aztonjayaforever.com',
                                         ],
                                         [
-                                            'icon' => 'users',
-                                            'title' => 'Local Expertise',
-                                            'text' => 'Experienced team and strong local network.',
+                                            'icon' => 'phone',
+                                            'title' => 'Office / Telp & Fax',
+                                            'text' => '+62 812 5097 7777',
                                         ],
                                         [
-                                            'icon' => 'clock-3',
-                                            'title' => '24/7 Operation',
-                                            'text' => 'We are ready when you need us, anytime.',
+                                            'icon' => 'message-square',
+                                            'title' => 'WhatsApp / WeChat / Zalo',
+                                            'text' => '+62 812 5097 7777<br>+62 821 4151 1101',
                                         ],
                                     ];
                                 @endphp
@@ -370,7 +416,7 @@
                                             </h3>
 
                                             <p class="mt-1 text-xs leading-5 text-slate-500">
-                                                {{ $reason['text'] }}
+                                                {!! $reason['text'] !!}
                                             </p>
                                         </div>
 
@@ -391,64 +437,214 @@
 
 
         {{-- =========================================================
-        CERTIFICATIONS
+        TRUST, CERTIFICATIONS & STATS WITH VISUALS & ANIMATED COUNTERS
     ========================================================== --}}
-        <section class="bg-white py-16">
+        <section class="bg-slate-50 py-20 lg:py-24">
 
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
-                <div class="text-center">
+                {{-- Header Section --}}
+                <div class="mx-auto max-w-2xl text-center">
 
-                    <p class="text-xs font-bold uppercase tracking-widest
-                          text-blue-700">
-                        Certifications & Accreditations
+                    <p
+                        class="inline-flex items-center gap-2 rounded-full bg-blue-100/80 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-800 backdrop-blur">
+                        <i data-lucide="award" class="h-4 w-4 text-blue-700"></i>
+                        Proven Excellence & Industry Standards
                     </p>
 
-                    <h2 class="mt-2 text-3xl font-extrabold text-slate-900">
+                    <h2 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
                         Quality You Can Trust
                     </h2>
 
+                    <p class="mt-3 max-w-2xl mb-8 text-base text-slate-600">
+                        Committed to delivering reliable marine supplies, certified standards, and exceptional service
+                        coverage for all types of vessels in Muara Badak anchorage & port.
+                    </p>
+
                 </div>
 
-
-                <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                {{-- Grid Combined: Visual Stats & Certifications --}}
+                <div class="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
                     @php
-                        $certifications = [
-                            ['name' => 'IMPA', 'desc' => 'International Marine Purchasing Association'],
-                            ['name' => 'ISSA', 'desc' => 'International Ship Suppliers Association'],
-                            ['name' => 'ISO', 'desc' => 'ISO 9001:2015 Quality Management'],
-                            ['name' => 'HALAL', 'desc' => 'Halal Certified Food Provisions'],
-                            ['name' => 'BV', 'desc' => 'Bureau Veritas Supplier Approval'],
-                            ['name' => 'INSA', 'desc' => 'Indonesian National Shipowners Association'],
+                        $trustItems = [
+                            [
+                                'type' => 'stat',
+                                'badge' => '24/7 Operational',
+                                'target' => 100,
+                                'suffix' => '+',
+                                'title' => 'Vessels Supplied',
+                                'desc' =>
+                                    'Trusted supplier for domestic & international vessels in Muara Badak anchorage.',
+                                'image' =>
+                                    'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80',
+                                'icon' => 'ship',
+                            ],
+                            [
+                                'type' => 'stat',
+                                'badge' => 'Complete Services',
+                                'target' => 10,
+                                'suffix' => '+',
+                                'title' => 'Marine Categories',
+                                'desc' => 'Provisions, bonded stores, deck/engine supplies, OXY/ACE, to motor repairs.',
+                                'image' =>
+                                    'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+                                'icon' => 'boxes',
+                            ],
+                            [
+                                'type' => 'cert',
+                                'badge' => 'Global Association',
+                                'static' => '',
+                                'title' => 'International Marine Purchasing',
+                                'desc' => 'Official member of International Marine Purchasing Association.',
+                                'image' => asset('img/impa-logo.jpg'),
+                                'imageFit' => 'contain',
+                                'icon' => 'globe-2',
+                            ],
+                            [
+                                'type' => 'stat',
+                                'badge' => 'Trade Network',
+                                'static' => '',
+                                'title' => 'ShipServ Verified Member',
+                                'desc' =>
+                                    'Registered and fully verified trade supplier on ShipServ global maritime network.',
+                                'image' => asset('img/shipserv-logo.png'),
+                                'imageFit' => 'contain',
+                                'icon' => 'shield-check',
+                            ],
                         ];
                     @endphp
 
+                    @foreach ($trustItems as $item)
+                        <div @if ($item['type'] === 'stat') x-data="{
+                                    current: 0,
+                                    target: {{ $item['target'] ?? 0 }},
+                                    animate() {
+                                        const duration = 1500;
+                                        const startTime = performance.now();
 
-                    @foreach ($certifications as $cert)
-                        <div
-                            class="flex min-h-36 flex-col items-center justify-center
-                                rounded-xl border border-slate-200 p-5
-                                text-center transition hover:border-blue-300
-                                hover:shadow-md">
+                                        const update = (currentTime) => {
+                                            const progress = Math.min((currentTime - startTime) / duration, 1);
+                                            const easedProgress = 1 - Math.pow(1 - progress, 2);
+                                            this.current = Math.floor(easedProgress * this.target);
 
-                            <div class="text-2xl font-black text-blue-700">
-                                {{ $cert['name'] }}
+                                            if (progress < 1) {
+                                                requestAnimationFrame(update);
+                                            }
+                                        };
+
+                                        requestAnimationFrame(update);
+                                    }
+                                }"
+                                x-intersect.once="animate()" @endif
+                            class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-blue-300 hover:shadow-2xl">
+
+                            {{-- Background Image with Overlay --}}
+                            <div
+                                class="relative h-44 w-full overflow-hidden {{ ($item['imageFit'] ?? 'cover') === 'contain' ? 'bg-white' : '' }}">
+                                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
+                                    class="h-full w-full {{ ($item['imageFit'] ?? 'cover') === 'contain' ? 'object-contain p-5' : 'object-cover' }} transition-transform duration-500 {{ ($item['imageFit'] ?? 'cover') === 'cover' ? 'group-hover:scale-110' : '' }}">
+                                @if (($item['imageFit'] ?? 'cover') === 'cover')
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent">
+                                    </div>
+                                @endif
+
+                                {{-- Badge --}}
+                                <span
+                                    class="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-blue-900 shadow-md backdrop-blur">
+                                    <i data-lucide="{{ $item['icon'] }}" class="h-3.5 w-3.5 text-blue-700"></i>
+                                    {{ $item['badge'] }}
+                                </span>
+
+                                {{-- Counter / Main Value Overlay --}}
+                                <div class="absolute inset-x-6 bottom-4 flex items-end justify-between gap-3">
+                                    @if (isset($item['target']))
+                                        <span
+                                            class="flex items-baseline text-4xl font-black tracking-tight text-white drop-shadow-md transition-all duration-300 group-hover:text-blue-300">
+                                            <span x-text="current">0</span>{{ $item['suffix'] }}
+                                        </span>
+                                        <span class="relative flex h-3 w-3">
+                                            <span
+                                                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span
+                                                class="relative inline-flex h-3 w-3 rounded-full bg-emerald-500"></span>
+                                        </span>
+                                    @else
+                                        {{-- Static Text (e.g. IMPA) --}}
+                                        <span
+                                            class="text-4xl font-black tracking-tight text-white drop-shadow-md transition-all duration-300 group-hover:text-blue-300">
+                                            {{ $item['static'] }}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
 
-                            <p class="mt-3 text-[11px] leading-4 text-slate-500">
-                                {{ $cert['desc'] }}
-                            </p>
+                            {{-- Content Body --}}
+                            <div class="flex flex-1 flex-col justify-between p-6">
+                                <div>
+                                    <h3
+                                        class="text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
+                                        {{ $item['title'] }}
+                                    </h3>
+
+                                    <p class="mt-2 text-xs leading-5 text-slate-500">
+                                        {{ $item['desc'] }}
+                                    </p>
+                                </div>
+
+                                {{-- Decorative Line --}}
+                                <div
+                                    class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-700">
+                                    <div
+                                        class="h-1.5 w-12 rounded-full bg-slate-100 group-hover:bg-blue-600 transition-colors">
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     @endforeach
 
                 </div>
 
+                {{-- Banner Bottom: Legalities & Compliance --}}
+                <div class="relative mt-10 overflow-hidden rounded-3xl bg-[#06284b] p-8 text-white shadow-xl">
+                    <div class="absolute -right-10 -bottom-10 h-40 w-40 rounded-full bg-blue-500/10 blur-2xl"></div>
+                    <div class="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-indigo-500/10 blur-2xl"></div>
+
+                    <div
+                        class="relative z-10 flex flex-col items-center justify-between gap-6 md:flex-row text-center md:text-left">
+                        <div class="flex flex-col md:flex-row items-center gap-5">
+                            <div
+                                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300 ring-1 ring-white/20 backdrop-blur">
+                                <i data-lucide="shield-check" class="h-7 w-7 text-emerald-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Full Legal & Tax Compliance</h4>
+                                <p class="mt-1 text-xs text-blue-200">PT. AZTON JAYA FOREVER is fully registered and
+                                    licensed for port & marine services in Indonesia.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-center gap-3 text-xs">
+                            <div
+                                class="group flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2.5 font-mono text-blue-100 ring-1 ring-white/15 backdrop-blur transition hover:bg-white/20">
+                                <span class="text-blue-300 font-sans font-semibold">NPWP:</span>
+                                <span class="font-bold tracking-wider text-white">1000000009900911</span>
+                            </div>
+
+                            <div
+                                class="group flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2.5 font-mono text-blue-100 ring-1 ring-white/15 backdrop-blur transition hover:bg-white/20">
+                                <span class="text-blue-300 font-sans font-semibold">NIB:</span>
+                                <span class="font-bold tracking-wider text-white">1007260025108</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </section>
-
 
         {{-- =========================================================
         LATEST NEWS
@@ -519,7 +715,7 @@
                                    transition hover:-translate-y-1
                                    hover:shadow-lg">
 
-                            <img src="{{$news['image'] }}" alt="{{ $news['title'] }}"
+                            <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}"
                                 class="h-52 w-full object-cover">
 
                             <div class="p-6">
@@ -602,16 +798,16 @@
 
                                 <div class="flex gap-4">
 
-                                    <i data-lucide="message-circle" class="h-5 w-5 shrink-0 text-yellow-400">
+                                    <i data-lucide="phone" class="h-5 w-5 shrink-0 text-yellow-400">
                                     </i>
 
                                     <div>
-                                        <p class="text-sm font-semibold">
-                                            +62 821-4151-1101
-                                        </p>
+                                        <a href="tel:+6281250977777" class="text-sm font-semibold transition hover:text-yellow-300">
+                                            +62 812 5097 7777
+                                        </a>
 
                                         <p class="text-xs text-blue-200">
-                                            24/7 Hotline
+                                            Office / Telp & Fax
                                         </p>
                                     </div>
 
@@ -623,9 +819,35 @@
                                     <i data-lucide="mail" class="h-5 w-5 shrink-0 text-white">
                                     </i>
 
-                                    <p class="text-sm text-blue-100">
-                                        ajfmarketing@aztonjayaforever.com
-                                    </p>
+                                    <div class="flex flex-col gap-1 text-sm text-blue-100">
+                                        <a href="mailto:ajfadmin@aztonjayaforever.com"
+                                            class="transition hover:text-white">
+                                            ajfadmin@aztonjayaforever.com
+                                        </a>
+                                        <a href="mailto:ajfmarketing@aztonjayaforever.com"
+                                            class="transition hover:text-white">
+                                            ajfmarketing@aztonjayaforever.com
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="flex gap-4">
+
+                                    <i data-lucide="message-square" class="h-5 w-5 shrink-0 text-white">
+                                    </i>
+
+                                    <div class="flex flex-col gap-1 text-sm text-blue-100">
+                                        <a href="https://wa.me/6281250977777" target="_blank" rel="noopener noreferrer"
+                                            class="transition hover:text-white">
+                                            +62 812 5097 7777
+                                        </a>
+                                        <a href="https://wa.me/6282141511101" target="_blank" rel="noopener noreferrer"
+                                            class="transition hover:text-white">
+                                            +62 821 4151 1101
+                                        </a>
+                                    </div>
 
                                 </div>
 
@@ -635,9 +857,10 @@
                                     <i data-lucide="map-pin" class="h-5 w-5 shrink-0 text-white">
                                     </i>
 
-                                    <p class="text-sm text-blue-100">
-                                        Muara Badak, Kutai Kartanegara<br>
-                                        East Kalimantan, Indonesia
+                                    <p class="text-sm leading-6 text-blue-100">
+                                        Dermaga Baru Toko Lima RT. 14 (75382)<br>
+                                        Muara Badak Ilir, Muara Badak<br>
+                                        Kutai Kartanegara, Kalimantan Timur, Indonesia
                                     </p>
 
                                 </div>
