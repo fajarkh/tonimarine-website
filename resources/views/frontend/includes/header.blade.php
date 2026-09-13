@@ -1,5 +1,5 @@
 <nav
-    class="border-b-2 border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900"
+    class="border-b-0 border-gray-200 bg-blue-700 shadow-md dark:border-gray-700 dark:bg-gray-900"
     role="navigation"
     aria-label="Main navigation"
 >
@@ -13,7 +13,8 @@
 
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between p-2">
         <a class="flex items-center space-x-3 rtl:space-x-reverse" href="/" wire:navigate aria-label="Go to homepage">
-            <img class="h-20 w-50 rounded" src="{{ asset("img/logo-with-text-trans.png") }}" alt="{{ app_name() }} Logo" />
+            <img class="h-20 w-50 rounded block dark:hidden" src="{{ asset("img/logo-light.png") }}" alt="{{ app_name() }} Logo" />
+            <img class="h-20 w-50 rounded hidden dark:block" src="{{ asset("img/logo-dark.png") }}" alt="{{ app_name() }} Logo" />
         </a>
         <div class="flex items-center justify-end space-x-1 md:order-2 md:space-x-0 rtl:space-x-reverse">
             @if (setting("show_theme_dropdown"))
@@ -33,7 +34,7 @@
                     >
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                     </svg>
-                    {{-- <svg
+                    <svg
                         class="hidden h-5 w-5"
                         id="theme-toggle-light-icon"
                         fill="currentColor"
@@ -45,7 +46,7 @@
                             fill-rule="evenodd"
                             clip-rule="evenodd"
                         ></path>
-                    </svg> --}}
+                    </svg>
                 </button>
             @endif
 
@@ -136,7 +137,7 @@
                     </a>
                 @endif --}}
 
-                {{-- <a
+                <a
                     class="inline-flex cursor-pointer items-center justify-center rounded-sm p-2 text-sm font-medium text-gray-900 hover:bg-gray-100 sm:px-4 sm:py-2 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
                     href="{{ route("login") }}"
                     wire:navigate
@@ -161,7 +162,7 @@
                     <span class="ms-2 hidden sm:block">
                         {{ __("Login") }}
                     </span>
-                </a> --}}
+                </a>
             @endguest
 
             @auth
@@ -225,7 +226,7 @@
                                                 d="M15 4h4a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-2a1 1 0 0 1 1 -1"
                                             />
                                         </svg>
-                                        {{ __("Admin Dashboard") }}
+                                        {{ __("Dashboard") }}
                                     </div>
                                 </a>
                             </li>

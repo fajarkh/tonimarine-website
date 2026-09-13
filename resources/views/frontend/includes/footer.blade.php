@@ -16,7 +16,7 @@
                 class="inline-flex items-center"
             >
                 <img
-                    src="{{ asset('img/logo-with-text-trans.png') }}"
+                    src="{{ asset('img/logo-light.png') }}"
                     alt="{{ app_name() }} Logo"
                     class="h-50 w-100 rounded-sm object-contain"
                 />
