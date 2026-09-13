@@ -172,36 +172,36 @@
                 </div>
 
 
-                <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+                <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
                     @php
                         $services = [
                             [
-                                'icon' => 'shopping-cart',
+                                'image' => 'shopping-cart.jpeg',
                                 'title' => 'Provision & Bonded Store',
                                 'description' =>
                                     'Fresh food, provisions, and official bonded store supplies for vessel crew needs.',
                             ],
+                            // [
+                            //     'image' => 'store.png',
+                            //     'title' => 'Gallery & Engine Store',
+                            //     'description' =>
+                            //         'Complete gallery essentials and comprehensive engine technical stores.',
+                            // ],
                             [
-                                'icon' => 'store',
-                                'title' => 'Gallery & Engine Store',
-                                'description' =>
-                                    'Complete gallery essentials and comprehensive engine technical stores.',
-                            ],
-                            [
-                                'icon' => 'anchor',
-                                'title' => 'Deck Store & Fresh Water',
+                                'image' => 'fresh-water.jpeg',
+                                'title' => 'Fresh Water',
                                 'description' =>
                                     'Full range of deck equipment, maintenance stores, and fresh water supply.',
                             ],
                             [
-                                'icon' => 'flame',
+                                'image' => 'oksigen.jpeg',
                                 'title' => 'Oxy & Ace Refill & Garbage',
                                 'description' =>
                                     'Oxygen & Acetylene cylinder refill services and eco-friendly garbage disposal.',
                             ],
                             [
-                                'icon' => 'wrench',
+                                'image' => 'wrench.jpeg',
                                 'title' => 'BA Chart & Motor Repair',
                                 'description' =>
                                     'British Admiralty (BA) nautical charts and professional motor repair services.',
@@ -209,25 +209,17 @@
                         ];
                     @endphp
 
-
                     @foreach ($services as $service)
                         <div
                             class="group rounded-2xl border border-slate-200
-                                bg-white p-7 text-center shadow-sm
+                                bg-white text-center shadow-sm
                                 transition duration-300
                                 hover:-translate-y-1 hover:shadow-xl">
 
-                            <div
-                                class="mx-auto flex h-16 w-16 items-center
-                                    justify-center rounded-full bg-blue-50
-                                    transition group-hover:bg-blue-700">
-
-                                <i data-lucide="{{ $service['icon'] }}"
-                                    class="h-7 w-7 text-blue-700
-                                      group-hover:text-white">
-                                </i>
-
-                            </div>
+                            <!-- Gambar berdiri sendiri tanpa pembungkus rounded -->
+                            <img src="{{ asset('img/landing/service/' . $service['image']) }}"
+                                alt="{{ $service['title'] }}"
+                                class="mx-auto h-100 w-100 object-contain transition duration-300 group-hover:scale-110">
 
                             <h3 class="mt-6 text-lg font-bold text-slate-900">
                                 {{ $service['title'] }}
