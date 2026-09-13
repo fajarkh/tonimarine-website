@@ -13,8 +13,8 @@
 
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between p-2">
         <a class="flex items-center space-x-3 rtl:space-x-reverse" href="/" wire:navigate aria-label="Go to homepage">
-            <img class="h-20 w-50 rounded block dark:hidden" src="{{ asset("img/logo-light.png") }}" alt="{{ app_name() }} Logo" />
-            <img class="h-20 w-50 rounded hidden dark:block" src="{{ asset("img/logo-dark.png") }}" alt="{{ app_name() }} Logo" />
+            <img class="h-30 w-100 rounded block dark:hidden" src="{{ asset("img/logo-light.png") }}" alt="{{ app_name() }} Logo" />
+            <img class="h-30 w-100 rounded hidden dark:block" src="{{ asset("img/logo-dark.png") }}" alt="{{ app_name() }} Logo" />
         </a>
         <div class="flex items-center justify-end space-x-1 md:order-2 md:space-x-0 rtl:space-x-reverse">
             @if (setting("show_theme_dropdown"))

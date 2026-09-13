@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="{{ setting('meta_description') }}" />
 <meta name="keyword" content="{{ setting('meta_keyword') }}" />
+<meta name="google-site-verification" content="{{ config('services.google.site_verification') }}">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <title>@yield('title', $title ?? '') | {{ config('app.name') }}</title>
