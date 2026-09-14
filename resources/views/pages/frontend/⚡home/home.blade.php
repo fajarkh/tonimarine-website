@@ -2,14 +2,14 @@
     <div class="min-h-screen bg-white text-slate-900">
 
         {{-- =========================================================
-        HERO SECTION SLIDER (Alpine.js)
+        HERO SECTION SLIDER
     ========================================================== --}}
         <section x-data="{
             activeSlide: 0,
             slides: [{
                     title: 'General Marine Supplier & Service',
                     highlight: 'For Your Vessel\'s Operational Needs.',
-                    desc: 'Provision, bonded store, engine & deck store, fresh water, OXY & ACE refill, and motor repair services based in Muara Badak.',
+                    desc: 'Provision, bonded store, engine & deck store, fresh water, OXY & ACE refill, and motor repair services based in Muara Berau.',
                     image: '{{ asset('img/landing/hero/hero-vessel-supply.jpeg') }}',
                     badge: 'PT. AZTON JAYA FOREVER'
                 },
@@ -242,7 +242,7 @@
 
 
         {{-- =========================================================
-        PORT COVERAGE - MUARA BADAK
+        PORT COVERAGE
     ========================================================== --}}
         <section id="ports" class="bg-slate-50 py-20 lg:py-24">
 
