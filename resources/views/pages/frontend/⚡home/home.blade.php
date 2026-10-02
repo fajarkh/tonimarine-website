@@ -189,7 +189,7 @@
                             //         'Complete gallery essentials and comprehensive engine technical stores.',
                             // ],
                             [
-                                'image' => 'fresh-water.jpeg',
+                                'image' => 'fresh-water-2.jpeg',
                                 'title' => 'Fresh Water',
                                 'description' =>
                                     'Full range of deck equipment, maintenance stores, and fresh water supply.',

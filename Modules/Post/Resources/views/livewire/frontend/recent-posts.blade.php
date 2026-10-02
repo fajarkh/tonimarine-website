@@ -15,7 +15,7 @@
                     $imageUrl = $row->image;
 
                     if ($imageUrl && ! \Illuminate\Support\Str::startsWith($imageUrl, ["http://", "https://", "/"])) {
-                        $imageUrl = \Illuminate\Support\Facades\Storage::disk("public")->url($imageUrl);
+                        $imageUrl = asset('storage/' . $imageUrl);
                     }
                 @endphp
 
