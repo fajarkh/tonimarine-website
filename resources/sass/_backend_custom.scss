@@ -57,7 +57,30 @@ body {
 .simplebar-content {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+}
+
+/* ================================================================
+   Jodit Editor - Dark Mode
+================================================================ */
+
+html.dark,
+[data-coreui-theme="dark"] {
+  .jodit-editor,
+  .jodit-wysiwyg,
+  .jodit-wysiwyg iframe,
+  .jodit-source {
+    background-color: #1f2937 !important;
+    color: #e5e7eb !important;
+  }
+
+  .jodit-toolbar,
+  .jodit-toolbar-button,
+  .jodit-statusbar,
+  .jodit-dialog,
+  .jodit-popup {
+    background-color: #374151 !important;
+    color: #e5e7eb !important;
+  }
 }
 
 // Dark mode support

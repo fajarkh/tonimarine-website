@@ -22,6 +22,27 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+/* ================================================================
+   Jodit Editor - Dark Mode
+================================================================ */
+
+.dark .jodit-editor,
+.dark .jodit-wysiwyg,
+.dark .jodit-wysiwyg iframe,
+.dark .jodit-source {
+    background-color: #1f2937 !important;
+    color: #e5e7eb !important;
+}
+
+.dark .jodit-toolbar,
+.dark .jodit-toolbar-button,
+.dark .jodit-statusbar,
+.dark .jodit-dialog,
+.dark .jodit-popup {
+    background-color: #374151 !important;
+    color: #e5e7eb !important;
+}
+
 
 /* ================================================================
    Theme
